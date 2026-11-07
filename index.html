@@ -1,0 +1,211 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AZMY | Game Top Up</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f1f7ff;
+  color:#15345b;
+}
+header{
+  background:linear-gradient(135deg,#087be8,#102d59);
+  color:white;
+  padding:30px 20px;
+  text-align:center;
+}
+header h1{font-size:36px;margin:0}
+header p{margin:8px 0 0}
+nav{
+  background:white;
+  padding:14px;
+  text-align:center;
+  box-shadow:0 2px 10px #ccd9e8;
+}
+nav a{
+  color:#176cc4;
+  text-decoration:none;
+  margin:0 10px;
+  font-weight:bold;
+}
+.container{
+  max-width:900px;
+  margin:auto;
+  padding:20px;
+}
+h2{color:#176cc4}
+.games{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+}
+.game{
+  background:white;
+  border-radius:14px;
+  padding:20px 10px;
+  text-align:center;
+  border:1px solid #d9e9fa;
+  font-weight:bold;
+  box-shadow:0 3px 10px #dce8f5;
+}
+.game button{
+  margin-top:12px;
+  background:#147ce5;
+  color:white;
+  border:0;
+  padding:10px 18px;
+  border-radius:8px;
+}
+.order{
+  background:white;
+  margin-top:25px;
+  padding:22px;
+  border-radius:16px;
+  box-shadow:0 3px 15px #dce8f5;
+}
+input,select{
+  width:100%;
+  padding:13px;
+  margin:9px 0 15px;
+  border:1px solid #b8d3ef;
+  border-radius:9px;
+  font-size:16px;
+}
+.submit{
+  width:100%;
+  padding:14px;
+  border:0;
+  border-radius:10px;
+  background:#087be8;
+  color:white;
+  font-size:17px;
+  font-weight:bold;
+}
+#result{
+  margin-top:15px;
+  padding:12px;
+  background:#eaf5ff;
+  border-radius:10px;
+  display:none;
+}
+footer{
+  background:#102d59;
+  color:white;
+  padding:25px;
+  text-align:center;
+  margin-top:35px;
+}
+@media(min-width:600px){
+  .games{grid-template-columns:repeat(3,1fr)}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>AZMY</h1>
+  <p>GAME TOP-UP STORE</p>
+  <p>ร้านเติมเกมออนไลน์ ราคาคุ้มค่า</p>
+</header>
+
+<nav>
+  <a href="#home">หน้าแรก</a>
+  <a href="#games">เลือกเกม</a>
+  <a href="#order">สั่งซื้อ</a>
+</nav>
+
+<div class="container" id="home">
+  <h2>ยินดีต้อนรับสู่ AZMY</h2>
+  <p>เลือกเกมที่ต้องการและกรอกข้อมูลเพื่อสร้างรายการสั่งซื้อ</p>
+
+  <h2 id="games">เลือกเกมที่ต้องการเติม</h2>
+  <div class="games">
+    <div class="game">🔥<br>Free Fire
+      <button onclick="choose('Free Fire')">เลือกเกม</button>
+    </div>
+    <div class="game">🎮<br>Roblox
+      <button onclick="choose('Roblox')">เลือกเกม</button>
+    </div>
+    <div class="game">⚔️<br>ROV
+      <button onclick="choose('ROV')">เลือกเกม</button>
+    </div>
+    <div class="game">🎯<br>PUBG
+      <button onclick="choose('PUBG')">เลือกเกม</button>
+    </div>
+    <div class="game">🚀<br>Delta Force
+      <button onclick="choose('Delta Force')">เลือกเกม</button>
+    </div>
+    <div class="game">🛡️<br>Arena Breakout
+      <button onclick="choose('Arena Breakout')">เลือกเกม</button>
+    </div>
+  </div>
+
+  <div class="order" id="order">
+    <h2>สร้างรายการสั่งซื้อ</h2>
+
+    <label>เลือกเกม</label>
+    <select id="game">
+      <option value="">-- เลือกเกม --</option>
+      <option>Free Fire</option>
+      <option>Roblox</option>
+      <option>ROV</option>
+      <option>PUBG</option>
+      <option>Delta Force</option>
+      <option>Arena Breakout</option>
+    </select>
+
+    <label>แพ็กเกจที่ต้องการ</label>
+    <input id="package" placeholder="เช่น 310 Diamonds">
+
+    <label>UID / ID ผู้เล่น</label>
+    <input id="uid" placeholder="กรอกข้อมูลผู้เล่น">
+
+    <button class="submit" onclick="createOrder()">
+      สร้างรายการสั่งซื้อ
+    </button>
+
+    <div id="result"></div>
+  </div>
+</div>
+
+<footer>
+  <h2 style="color:white">AZMY</h2>
+  <p>GAME TOP-UP STORE</p>
+  <p>ขอบคุณที่ใช้บริการ</p>
+</footer>
+
+<script>
+function choose(name){
+  document.getElementById('game').value=name;
+  document.getElementById('order')
+    .scrollIntoView({behavior:'smooth'});
+}
+
+function createOrder(){
+  const game=document.getElementById('game').value;
+  const pack=document.getElementById('package').value.trim();
+  const uid=document.getElementById('uid').value.trim();
+
+  if(!game || !pack || !uid){
+    alert('กรุณากรอกข้อมูลให้ครบ');
+    return;
+  }
+
+  const result=document.getElementById('result');
+  result.style.display='block';
+  result.innerHTML=
+    '<b>สร้างรายการทดลองเรียบร้อย</b><br>'+
+    'เกม: '+game+'<br>'+
+    'แพ็กเกจ: '+pack+'<br>'+
+    'UID: '+uid+'<br>'+
+    '<br>สถานะ: รอพัฒนาระบบหลังบ้าน';
+}
+</script>
+
+</body>
+</html>
